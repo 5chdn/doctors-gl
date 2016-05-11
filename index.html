@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+  <head>
+    <title>doctors gl</title>
+
+    <!-- styles -->
+    <link rel="stylesheet" href="./lib/jquery-ui-bootstrap/css/custom-theme/jquery-ui-1.10.0.custom.css" />
+    <link rel="stylesheet" href="./lib/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="./lib/r360/r360.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat:400,700" />
+    <link rel="stylesheet" href="./lib/jquery-ui-bootstrap/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./lib/jquery-ui-bootstrap/assets/js/google-code-prettify/prettify.css" />
+
+    <style>
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0 }
+      #map { height: 100% }
+    </style>
+
+    <!-- libs -->
+    <script src="./lib/jquery/jquery-2.2.3.js"></script>
+    <script src="./lib/jquery-ui-bootstrap/js/jquery-ui-1.9.2.custom.min.js"></script>
+    <script src="./lib/google/webgl-utils.js"></script>
+    <script src="./lib/khronos/webgl-debug.js"></script>
+    <script src="./lib/leaflet/leaflet-src.js"></script>
+    <script src="./lib/leaflet-canvasoverlay/L.CanvasOverlay.js"></script>
+    <script src="./lib/leaflet-tilebuffer/L.TileBuffer.js"></script>
+    <script src="./lib/leaflet-tilebuffer/L.TileBufferCollection.js"></script>
+    <script src="./lib/r360/r360-src.js"></script>
+    <script src="./lib/r360/r360-leaflet-src.js"></script>
+    <script src="./lib/underscore/underscore.js"></script>
+    <script src="./doctors-gl.js"></script>
+    <script src="./doctors.js"></script>
+
+    <!-- shaders -->
+    <script type="x-shader/x-vertex" id="shader-vtx">
+      uniform mat4 u_matrix;
+      attribute vec3 a_vertex;
+      varying vec4 v_color;
+      void main(void) {
+        gl_Position = u_matrix * vec4(a_vertex, 1.0);
+        gl_PointSize = 3.0;
+        v_color = vec4(1.0, 1.0, 0.0, 0.666);
+      }
+    </script>
+    <script type="x-shader/x-fragment" id="shader-frg">
+      precision mediump float;
+      varying vec4 v_color;
+      void main(void) {
+        gl_FragColor = v_color;
+      }
+    </script>
+  </head>
+  <body onload="doctors_gl()">
+
+    <!-- canvas -->
+    <div id="map"></div>
+  </body>
+</html>
