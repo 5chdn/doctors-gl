@@ -14,18 +14,11 @@ function doctors_gl() {
   o.canvas.height = c.clientHeight;
   initGL();
   initShaders();
-  let tileLayerUrl =
-    'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png'
-    + '?access_token={accessToken}';
-  let token =
-    'pk.eyJ1IjoiZG9uc2Nob2UiLCJhIjoiMkN5RUk0QSJ9.FGcEYWjfgcJUmSyN1tkwgQ';
-  let mapboxTiles = L.tileLayer(tileLayerUrl, {
-    attribution: 'Doctors GL PoC | &copy; 2016 A. Schoedon',
-    id: 'mapbox.dark',
-    accessToken: token,
-    noWrap: true,
-    continuousWorld: false,
-    attributionControl: false
+  let bgTiles = L.tileLayer(
+    'http://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png',
+    {
+      subdomains: 'abcd',
+      maxZoom: 19
   }).addTo(m);
   createDoctorBuffer();
   drawGL();
