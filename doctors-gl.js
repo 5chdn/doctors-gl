@@ -19,7 +19,8 @@ function doctors_gl() {
     {
       subdomains: 'abcd',
       maxZoom: 19
-  }).addTo(m);
+    }
+  ).addTo(m);
   createDoctorBuffer();
   drawGL();
 }
