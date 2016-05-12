@@ -1,8 +1,8 @@
 let m, o, c;
 let gl, sp;
-let EARTH_EQUATOR = 40075016.68557849;
-let DEFAULT_CENTER = [52.319026, 13.554639];
-let DEFAULT_ZOOM = 6;
+const EARTH_EQUATOR = 40075016.68557849;
+const DEFAULT_CENTER = [52.319026, 13.554639];
+const DEFAULT_ZOOM = 6;
 let VERTICES = [];
 
 function doctors_gl() {
@@ -35,8 +35,8 @@ function initGL() {
 }
 
 function initShaders() {
-  let vShader = getShader("shader-vtx");
-  let fShader = getShader("shader-frg");
+  const vShader = getShader("shader-vtx");
+  const fShader = getShader("shader-frg");
   sp = gl.createProgram();
   gl.attachShader(sp, vShader);
   gl.attachShader(sp, fShader);
@@ -53,7 +53,7 @@ function initShaders() {
 
 function getShader(id) {
   let shader;
-  let shaderScript = document.getElementById(id);
+  const shaderScript = document.getElementById(id);
   if (!shaderScript) {
     _log("getShader(id): [WRN]: shader not found");
     return null;
@@ -86,9 +86,9 @@ function getShader(id) {
 function createDoctorBuffer() {
   featureSet = doctors.features;
   $.each(featureSet, function(i, f) {
-    let c = f.geometry.coordinates;
-    let p = L.point(c);
-    let v = mercatorToPixels(p);
+    const c = f.geometry.coordinates;
+    const p = L.point(c);
+    const v = mercatorToPixels(p);
     VERTICES.push(v.x);
     VERTICES.push(v.y);
   });
@@ -102,13 +102,13 @@ function drawGL() {
     gl.disable(gl.DEPTH_TEST);
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.viewport(0, 0, c.width, c.height);
-    let bounds = m.getBounds();
-    let topLeft = new L.LatLng(bounds.getNorth(), bounds.getWest());
-    let zoom = m.getZoom();
-    let scale = Math.pow(2, zoom) * 256.0;
-    let offset = latLonToPixels(topLeft.lat, topLeft.lng);
-    let width = Math.max(zoom - 12.0, 1.0);
-    let vtxSize = 2;
+    const bounds = m.getBounds();
+    const topLeft = new L.LatLng(bounds.getNorth(), bounds.getWest());
+    const zoom = m.getZoom();
+    const scale = Math.pow(2, zoom) * 256.0;
+    const offset = latLonToPixels(topLeft.lat, topLeft.lng);
+    const width = Math.max(zoom - 12.0, 1.0);
+    const vtxSize = 2;
     let uMatrix = new Float32Array([
       1,0,0,0,
       0,1,0,0,
@@ -125,7 +125,7 @@ function drawGL() {
     gl.bindBuffer(gl.ARRAY_BUFFER, vtxBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, VERTICES, gl.STATIC_DRAW);
     gl.vertexAttribPointer(sp.vertexPosition, vtxSize, gl.FLOAT, false, 0, 0);
-    let count = VERTICES.length / 2.0 - 1;
+    const count = VERTICES.length / 2.0 - 1;
     gl.drawArrays(gl.POINTS, 0, count);
 //    gl.drawElements(gl.LINES, tileBuffers[i].getIndexBuffer().length, gl.UNSIGNED_SHORT, idxBuffer);
   }
@@ -150,20 +150,20 @@ function scaleMatrix(m, x, y) {
 }
 
 function mercatorToPixels(p)  {
-  let pixelX = (p.x + (EARTH_EQUATOR / 2.0)) / EARTH_EQUATOR;
-  let pixelY = ((p.y - (EARTH_EQUATOR / 2.0)) / -EARTH_EQUATOR);
+  const pixelX = (p.x + (EARTH_EQUATOR / 2.0)) / EARTH_EQUATOR;
+  const pixelY = ((p.y - (EARTH_EQUATOR / 2.0)) / -EARTH_EQUATOR);
   return L.point(pixelX, pixelY);
 }
 
 function latLonToPixels(lat, lon) {
-  let sinLat = Math.sin(lat * Math.PI / 180.0);
-  let pixelX = ((lon + 180) / 360);
-  let pixelY = (0.5 - Math.log((1 + sinLat) / (1 - sinLat)) / (Math.PI * 4));
+  const sinLat = Math.sin(lat * Math.PI / 180.0);
+  const pixelX = ((lon + 180) / 360);
+  const pixelY = (0.5 - Math.log((1 + sinLat) / (1 - sinLat)) / (Math.PI * 4));
   return L.point(pixelX, pixelY);
 }
 
 function _log(s) {
-  let n = new Date().getTime() / 1000.0;
+  const n = new Date().getTime() / 1000.0;
   window.console.log('[' + n.toFixed(3) + '] ' + s);
 }
 
