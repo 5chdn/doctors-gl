@@ -18,7 +18,8 @@ function doctors_gl() {
     'http://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png',
     {
       subdomains: 'abcd',
-      maxZoom: 19
+      maxZoom: 19,
+      attribution: "Doctors GL PoC #1 | &copy; 2016 A. Schoedon"
     }
   ).addTo(m);
   createDoctorBuffer();
